@@ -21,18 +21,22 @@ public class HtmlElement {
     /// The kind of the element
     public var kind: ElementKind
     
+    public var level: Int
+    
     /// The content of the element
     public var children: [HtmlElement]?
     
     /// Creates a element
-    public init(kind: ElementKind) {
+    public init(kind: ElementKind, level: Int) {
+        
         self.kind = kind
+        self.level = level
     }
     
     /// Maps a element node
-    internal convenience init(node: ElementNode) {
+    internal convenience init(node: ElementNode, level: Int) {
         
-        self.init(kind: .element)
+        self.init(kind: .element, level: level)
         self.name = node.name
         
         if let children = node.children {
@@ -40,15 +44,15 @@ public class HtmlElement {
             for child in children {
                 
                 if let comment = child as? CommentNode {
-                    self.add(child: HtmlElement(node: comment))
+                    self.add(child: HtmlElement(node: comment, level: (level + 1)))
                 }
                 
                 if let element = child as? ElementNode {
-                    self.add(child: HtmlElement(node: element))
+                    self.add(child: HtmlElement(node: element, level: (level + 1)))
                 }
                 
                 if let text = child as? TextNode {
-                    self.add(child: HtmlElement(node: text))
+                    self.add(child: HtmlElement(node: text, level: (level + 1)))
                 }
             }
         }
@@ -62,16 +66,16 @@ public class HtmlElement {
     }
     
     /// Maps a comment node
-    internal convenience init(node: CommentNode) {
+    internal convenience init(node: CommentNode, level: Int) {
         
-        self.init(kind: .comment)
+        self.init(kind: .comment, level: level)
         self.value = node.data
     }
     
     /// Maps a text node
-    internal convenience init(node: TextNode) {
+    internal convenience init(node: TextNode, level: Int) {
         
-        self.init(kind: .text)
+        self.init(kind: .text, level: level)
         self.value = node.data
     }
     

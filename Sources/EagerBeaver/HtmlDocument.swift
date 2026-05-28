@@ -23,7 +23,7 @@ public class HtmlDocument {
             }
             
             if let element = node as? ElementNode {
-                self.add(child: HtmlElement(node: element))
+                self.add(child: HtmlElement(node: element, level: 0))
             }
         }
     }
