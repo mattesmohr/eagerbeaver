@@ -2,7 +2,7 @@
 internal class Tokenizer {
     
     /// A enumeration of possible errors
-    internal enum TokenizerError: Error {
+    internal enum Error: Swift.Error {
         
         case invalidCharacter(Character)
         case invalidDoctype(String)
@@ -20,37 +20,37 @@ internal class Tokenizer {
             
             switch self {
             case .emptyComment:
-                return "Empty comment."
+                return "Empty comment"
                 
             case .missingWhitespace:
-                return "Missing whitespace."
+                return "Missing whitespace"
                 
             case .missingSystemIdentifier:
-                return "Missing system identifier."
+                return "Missing system identifier"
                 
             case .missingPublicIdentifier:
-                return "Missing public identifier."
+                return "Missing public identifier"
                 
             case .missingCommentDash:
-                return "Missing dash."
+                return "Missing dash"
                 
             case .missingTagName:
-                return "Missing tag name."
+                return "Missing tag name"
                 
             case .missingRootDeclaration:
-                return "Missing root declaration."
+                return "Missing root declaration"
                 
             case .invalidKeyword(let string):
-                return "Invalid keyword \(string)."
+                return "Invalid keyword \(string)"
                 
             case .invalidRootDeclaration(let string):
-                return "Invalid root declaration \(string)."
+                return "Invalid root declaration \(string)"
                 
             case .invalidDoctype(let string):
-                return "Invalid doctype \(string)."
+                return "Invalid doctype \(string)"
                 
             case .invalidCharacter(let character):
-                return "Invalid character \(character)."
+                return "Invalid character \(character)"
             }
         }
     }
@@ -295,7 +295,7 @@ internal class Tokenizer {
         self.log(#function, character)
         
         if character.isGreaterThanSign {
-            throw TokenizerError.missingTagName
+            throw Error.missingTagName
         }
         
         if character.isExclamationMark {
@@ -313,7 +313,7 @@ internal class Tokenizer {
             return .tagname
         }
         
-        throw TokenizerError.invalidCharacter(character)
+        throw Error.invalidCharacter(character)
     }
     
     /// Consumes the character of the tag name
@@ -351,7 +351,7 @@ internal class Tokenizer {
             return .tagname
         }
         
-        throw TokenizerError.invalidCharacter(character)
+        throw Error.invalidCharacter(character)
     }
     
     /// Consumes the character of the end tag
@@ -360,7 +360,7 @@ internal class Tokenizer {
         self.log(#function, character)
         
         if character.isGreaterThanSign {
-            throw TokenizerError.missingTagName
+            throw Error.missingTagName
         }
         
         if character.isLetter {
@@ -370,7 +370,7 @@ internal class Tokenizer {
             return .tagname
         }
         
-        throw TokenizerError.invalidCharacter(character)
+        throw Error.invalidCharacter(character)
     }
     
     /// Consumes the character of the self closing tag.
@@ -400,7 +400,7 @@ internal class Tokenizer {
             return .attributename
         }
         
-        throw TokenizerError.invalidCharacter(character)
+        throw Error.invalidCharacter(character)
     }
     
     /// Consumes the character of the attribute name
@@ -431,7 +431,7 @@ internal class Tokenizer {
             return .beforeattributevalue
         }
         
-        throw TokenizerError.invalidCharacter(character)
+        throw Error.invalidCharacter(character)
     }
     
     /// Consumes the character before the attribute value
@@ -443,7 +443,7 @@ internal class Tokenizer {
             return .attributevalue
         }
         
-        throw TokenizerError.invalidCharacter(character)
+        throw Error.invalidCharacter(character)
     }
     
     /// Consumes the character of the attribute value
@@ -477,7 +477,7 @@ internal class Tokenizer {
             return .afterattributevalue
         }
         
-        throw TokenizerError.invalidCharacter(character)
+        throw Error.invalidCharacter(character)
     }
     
     /// Consumes the character after attribute value
@@ -497,7 +497,7 @@ internal class Tokenizer {
             return .data
         }
         
-        throw TokenizerError.invalidCharacter(character)
+        throw Error.invalidCharacter(character)
     }
     
     /// Consumes the character of the markup
@@ -521,7 +521,7 @@ internal class Tokenizer {
             return .commentstart
         }
         
-        throw TokenizerError.invalidCharacter(character)
+        throw Error.invalidCharacter(character)
     }
     
     /// Consumes the character before the comment
@@ -534,10 +534,10 @@ internal class Tokenizer {
         }
         
         if character.isGreaterThanSign {
-            throw TokenizerError.emptyComment
+            throw Error.emptyComment
         }
         
-        throw TokenizerError.invalidCharacter(character)
+        throw Error.invalidCharacter(character)
     }
     
     /// Consumes the comment dash
@@ -558,10 +558,10 @@ internal class Tokenizer {
         }
         
         if character.isGreaterThanSign {
-            throw TokenizerError.emptyComment
+            throw Error.emptyComment
         }
         
-        throw TokenizerError.invalidCharacter(character)
+        throw Error.invalidCharacter(character)
     }
     
     /// Consumes the character of the comment
@@ -596,7 +596,7 @@ internal class Tokenizer {
             return try consumeComment(character)
         }
         
-        throw TokenizerError.missingCommentDash
+        throw Error.missingCommentDash
     }
     
     /// Consumes the character after the comment
@@ -611,7 +611,7 @@ internal class Tokenizer {
             return .data
         }
         
-        throw TokenizerError.invalidCharacter(character)
+        throw Error.invalidCharacter(character)
     }
     
     /// Consumes the character of the document type
@@ -620,7 +620,7 @@ internal class Tokenizer {
         self.log(#function, character)
         
         if character.isGreaterThanSign {
-            throw TokenizerError.missingRootDeclaration
+            throw Error.missingRootDeclaration
         }
         
         if character.isLetter {
@@ -634,7 +634,7 @@ internal class Tokenizer {
                 return .doctype
             }
             
-            throw TokenizerError.missingWhitespace
+            throw Error.missingWhitespace
         }
         
         if character.isWhitespace || character.isNewline {
@@ -646,7 +646,7 @@ internal class Tokenizer {
             return .rootdeclaration
         }
         
-        throw TokenizerError.invalidCharacter(character)
+        throw Error.invalidCharacter(character)
     }
     
     /// Checks the document type
@@ -655,7 +655,7 @@ internal class Tokenizer {
         self.log(#function)
         
         if self.temp.uppercased() != "DOCTYPE" {
-            throw TokenizerError.invalidDoctype(self.temp)
+            throw Error.invalidDoctype(self.temp)
         }
     }
     
@@ -682,7 +682,7 @@ internal class Tokenizer {
                 return .rootdeclaration
             }
             
-            throw TokenizerError.missingWhitespace
+            throw Error.missingWhitespace
         }
         
         if character.isWhitespace || character.isNewline {
@@ -694,7 +694,7 @@ internal class Tokenizer {
             return .keyword
         }
         
-        throw TokenizerError.invalidCharacter(character)
+        throw Error.invalidCharacter(character)
     }
     
     /// Checks the root declaration
@@ -703,7 +703,7 @@ internal class Tokenizer {
         self.log(#function)
         
         if self.temp.uppercased() != "HTML" {
-            throw TokenizerError.invalidRootDeclaration(self.temp)
+            throw Error.invalidRootDeclaration(self.temp)
         }
     }
     
@@ -713,7 +713,7 @@ internal class Tokenizer {
         self.log(#function, character)
         
         if character.isGreaterThanSign {
-            throw TokenizerError.missingPublicIdentifier
+            throw Error.missingPublicIdentifier
         }
         
         if character.isLetter {
@@ -727,7 +727,7 @@ internal class Tokenizer {
                 return .keyword
             }
             
-            throw TokenizerError.missingWhitespace
+            throw Error.missingWhitespace
         }
         
         if character.isWhitespace || character.isNewline {
@@ -739,7 +739,7 @@ internal class Tokenizer {
             return .beforepublicidentifier
         }
         
-        throw TokenizerError.invalidCharacter(character)
+        throw Error.invalidCharacter(character)
     }
     
     /// Checks the keyword
@@ -748,7 +748,7 @@ internal class Tokenizer {
         self.log(#function)
         
         if self.temp.uppercased() != "PUBLIC" {
-            throw TokenizerError.invalidKeyword(self.temp)
+            throw Error.invalidKeyword(self.temp)
         }
     }
     
@@ -761,7 +761,7 @@ internal class Tokenizer {
             return .publicidentifier
         }
         
-        throw TokenizerError.invalidCharacter(character)
+        throw Error.invalidCharacter(character)
     }
     
     /// Consumes the character of the public identifier
@@ -804,7 +804,7 @@ internal class Tokenizer {
             return .data
         }
         
-        throw TokenizerError.invalidCharacter(character)
+        throw Error.invalidCharacter(character)
     }
     
     /// Consumes the character before the system identifier
@@ -816,7 +816,7 @@ internal class Tokenizer {
             return .systemidentifier
         }
         
-        throw TokenizerError.invalidCharacter(character)
+        throw Error.invalidCharacter(character)
     }
     
     /// Consumes the character of the system identifier
@@ -858,7 +858,7 @@ internal class Tokenizer {
             return .data
         }
     
-        throw TokenizerError.invalidCharacter(character)
+        throw Error.invalidCharacter(character)
     }
     
     /// Consumes the character when its text
@@ -888,7 +888,7 @@ internal class Tokenizer {
             return .text
         }
         
-        throw TokenizerError.invalidCharacter(character)
+        throw Error.invalidCharacter(character)
     }
 }
 

@@ -2,7 +2,7 @@
 internal class Parser {
     
     /// A enumeration of possible errors
-    internal enum ParserError: Error {
+    internal enum Error: Swift.Error {
         
         case missingBodyTag
         case missingHeadTag
@@ -15,22 +15,22 @@ internal class Parser {
             
             switch self {
             case .missingBodyTag:
-                return "Missing body tag."
+                return "Missing body tag"
                 
             case .missingHeadTag:
-                return "Missing head tag."
+                return "Missing head tag"
                 
             case .missingHtmlTag:
-                return "Missing html tag."
+                return "Missing html tag"
                 
             case .missingDoctypeTag:
-                return "Missing doctype tag."
+                return "Missing doctype tag"
                 
             case .invalidToken:
-                return "Invalid token."
+                return "Invalid token"
                 
             case .invalidTag:
-                return "Invalid tag."
+                return "Invalid tag"
             }
         }
     }
@@ -163,7 +163,7 @@ internal class Parser {
             return .beforehtml
         }
         
-        throw ParserError.invalidToken
+        throw Error.invalidToken
     }
     
     /// Processes the token
@@ -180,17 +180,17 @@ internal class Parser {
                     self.nodes.append(ElementNode(token: tag))
                     
                 case .endtag:
-                    throw ParserError.invalidTag
+                    throw Error.invalidTag
                 }
                 
             } else {
-                throw ParserError.missingHtmlTag
+                throw Error.missingHtmlTag
             }
             
             return .beforehead
         }
         
-        throw ParserError.invalidToken
+        throw Error.invalidToken
     }
     
     /// Processes the token
@@ -207,11 +207,11 @@ internal class Parser {
                     self.nodes.append(ElementNode(token: tag))
                     
                 case .endtag:
-                    throw ParserError.invalidTag
+                    throw Error.invalidTag
                 }
                 
             } else {
-               throw ParserError.missingHeadTag
+               throw Error.missingHeadTag
             }
             
             return .inhead
@@ -226,7 +226,7 @@ internal class Parser {
             return .beforehead
         }
         
-        throw ParserError.invalidToken
+        throw Error.invalidToken
     }
     
     /// Processes the token
@@ -284,7 +284,7 @@ internal class Parser {
             return .inhead
         }
         
-        throw ParserError.invalidToken
+        throw Error.invalidToken
     }
     
     /// Processes the token
@@ -319,11 +319,11 @@ internal class Parser {
                     self.nodes.append(ElementNode(token: tag))
                     
                 case .endtag:
-                    throw ParserError.invalidTag
+                    throw Error.invalidTag
                 }
                 
             } else {
-               throw ParserError.missingBodyTag
+               throw Error.missingBodyTag
             }
 
             return .inbody
@@ -338,7 +338,7 @@ internal class Parser {
             return .afterhead
         }
         
-        throw ParserError.invalidToken
+        throw Error.invalidToken
     }
     
     /// Processes the token
@@ -396,7 +396,7 @@ internal class Parser {
             return .inbody
         }
         
-        throw ParserError.invalidToken
+        throw Error.invalidToken
     }
     
     /// Processes the token
@@ -427,19 +427,19 @@ internal class Parser {
                 
                 switch tag.kind {
                 case .starttag:
-                    throw ParserError.invalidTag
+                    throw Error.invalidTag
                     
                 case .endtag:
                     self.pop()
                 }
                 
             } else {
-                throw ParserError.missingHtmlTag
+                throw Error.missingHtmlTag
             }
             
             return .afterbody
         }
         
-        throw ParserError.invalidToken
+        throw Error.invalidToken
     }
 }
