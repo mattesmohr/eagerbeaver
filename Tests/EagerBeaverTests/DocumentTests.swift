@@ -11,9 +11,11 @@ final class DocumentTests: XCTestCase {
         <head>\
         <!--Comment-->\
         <title>Document</title>\
+        <meta name="author">\
         </head>\
         <body>\
-        <h1>Heading</h1>\
+        <h1 class="test">Heading</h1>\
+        <input type="text">\
         </body>\
         </html>
         """

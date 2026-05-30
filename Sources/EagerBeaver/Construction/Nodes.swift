@@ -14,6 +14,13 @@ internal class DefinitionNode: HtmlNode {
     }
 }
 
+extension DefinitionNode: CustomStringConvertible {
+    
+    var description: String {
+        return "\"\(publicId ?? "nil")\""
+    }
+}
+
 internal class ElementNode: HtmlNode {
     
     internal var name: String
@@ -59,6 +66,13 @@ internal class ElementNode: HtmlNode {
     }
 }
 
+extension ElementNode: CustomStringConvertible {
+    
+    var description: String {
+        return "\"\(name)\""
+    }
+}
+
 internal class CommentNode: HtmlNode {
     
     internal var data: String?
@@ -67,6 +81,13 @@ internal class CommentNode: HtmlNode {
         
         self.init()
         self.data = token.data
+    }
+}
+
+extension CommentNode: CustomStringConvertible {
+    
+    var description: String {
+        return "\"\(data ?? "nil")\""
     }
 }
 
@@ -79,7 +100,13 @@ internal class TextNode: HtmlNode {
         self.init()
         self.data = token.data
     }
+}
+
+extension TextNode: CustomStringConvertible {
     
+    var description: String {
+        return "\"\(data ?? "nil")\""
+    }
 }
 
 internal class AttributeNode: HtmlNode {
@@ -97,5 +124,12 @@ internal class AttributeNode: HtmlNode {
         
         self.init(name: token.name)
         self.value = token.value
+    }
+}
+
+extension AttributeNode: CustomStringConvertible {
+    
+    var description: String {
+        return "\"\(name)\""
     }
 }

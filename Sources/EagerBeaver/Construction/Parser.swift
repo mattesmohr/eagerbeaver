@@ -70,6 +70,26 @@ internal class Parser {
     /// The level of logging
     private var level: LogLevel
     
+    /// An enumeration of voids
+    private var voids: [String] {
+        return [
+            "area",
+            "base",
+            "br",
+            "col",
+            "embed",
+            "hr",
+            "img",
+            "input",
+            "link",
+            "meta",
+            "param",
+            "source",
+            "track",
+            "wbr"
+        ]
+    }
+    
     /// Creates a parser
     internal init(mode: InsertionMode = .initial, log level: LogLevel = .none) {
         
@@ -99,7 +119,15 @@ internal class Parser {
         self.tree.append(node)
     }
     
-    /// Pops the last node
+    /// View the last node.
+    private func peek() -> ElementNode? {
+        
+        self.log(#function)
+        
+        return self.nodes.last
+    }
+    
+    /// Pops the last node.
     private func pop() {
     
         self.log(#function)
@@ -154,7 +182,7 @@ internal class Parser {
     /// Processes the token
     private func processInitial(_ token: HtmlToken) throws -> InsertionMode {
         
-        self.log(#function)
+        self.log(#function, token)
         
         if let document = token as? DocumentToken {
             
@@ -169,17 +197,17 @@ internal class Parser {
     /// Processes the token
     private func processBeforeHtml(_ token: HtmlToken) throws -> InsertionMode {
         
-        self.log(#function)
+        self.log(#function, token)
         
         if let tag = token as? TagToken {
 
             if tag.name == "html" {
                 
                 switch tag.kind {
-                case .starttag:
+                case .start:
                     self.nodes.append(ElementNode(token: tag))
                     
-                case .endtag:
+                case .end:
                     throw Error.invalidTag
                 }
                 
@@ -196,17 +224,17 @@ internal class Parser {
     /// Processes the token
     private func processBeforeHead(_ token: HtmlToken) throws -> InsertionMode {
         
-        self.log(#function)
+        self.log(#function, token)
         
         if let tag = token as? TagToken {
         
             if tag.name == "head" {
                 
                 switch tag.kind {
-                case .starttag:
+                case .start:
                     self.nodes.append(ElementNode(token: tag))
                     
-                case .endtag:
+                case .end:
                     throw Error.invalidTag
                 }
                 
@@ -232,7 +260,7 @@ internal class Parser {
     /// Processes the token
     private func processInHead(_ token: HtmlToken) throws -> InsertionMode {
         
-        self.log(#function)
+        self.log(#function, token)
         
         if let comment = token as? CommentToken {
             
@@ -246,15 +274,25 @@ internal class Parser {
         if let tag = token as? TagToken {
             
             switch tag.kind {
-            case .starttag:
-
-                self.nodes.append(ElementNode(token: tag))
+            case .start:
                 
-                if tag.name == "meta" || tag.name == "base" || tag.name == "link" {
-                    self.pop()
+                if let last = peek() {
+                    
+                    if self.voids.contains(last.name) {
+                        self.pop()
+                    }
                 }
                 
-            case .endtag:
+                self.nodes.append(ElementNode(token: tag))
+                
+            case .end:
+                
+                if let last = peek() {
+                    
+                    if self.voids.contains(last.name) {
+                        self.pop()
+                    }
+                }
 
                 self.pop()
                 
@@ -290,7 +328,7 @@ internal class Parser {
     /// Processes the token
     private func processAfterHead(_ token: HtmlToken) throws -> InsertionMode {
         
-        self.log(#function)
+        self.log(#function, token)
         
         if let comment = token as? CommentToken {
             
@@ -315,10 +353,10 @@ internal class Parser {
             if tag.name == "body" {
                 
                 switch tag.kind {
-                case .starttag:
+                case .start:
                     self.nodes.append(ElementNode(token: tag))
                     
-                case .endtag:
+                case .end:
                     throw Error.invalidTag
                 }
                 
@@ -344,7 +382,7 @@ internal class Parser {
     /// Processes the token
     private func processInBody(_ token: HtmlToken) throws -> InsertionMode {
         
-        self.log(#function)
+        self.log(#function, token)
         
         if let comment = token as? CommentToken {
             
@@ -367,15 +405,25 @@ internal class Parser {
         if let tag = token as? TagToken {
             
             switch tag.kind {
-            case .starttag:
+            case .start:
+                
+                if let last = peek() {
+                    
+                    if self.voids.contains(last.name) {
+                        self.pop()
+                    }
+                }
                 
                 self.nodes.append(ElementNode(token: tag))
                 
-                if tag.name == "input" || tag.name == "img" || tag.name == "area" || tag.name == "embed" || tag.name == "hr" || tag.name == "wbr" || tag.name == "br"  {
-                    self.pop()
-                }
+            case .end:
                 
-            case .endtag:
+                if let last = peek() {
+                    
+                    if self.voids.contains(last.name) {
+                        self.pop()
+                    }
+                }
 
                 self.pop()
                 
@@ -402,7 +450,7 @@ internal class Parser {
     /// Processes the token
     private func processText(_ token: HtmlToken) throws -> InsertionMode {
         
-        self.log(#function)
+        self.log(#function, token)
         
         return .text
     }
@@ -410,7 +458,7 @@ internal class Parser {
     /// Processes the token
     private func processAfterBody(_ token: HtmlToken) throws -> InsertionMode {
         
-        self.log(#function)
+        self.log(#function, token)
         
         if let comment = token as? CommentToken {
             
@@ -426,10 +474,10 @@ internal class Parser {
             if tag.name == "html" {
                 
                 switch tag.kind {
-                case .starttag:
+                case .start:
                     throw Error.invalidTag
                     
-                case .endtag:
+                case .end:
                     self.pop()
                 }
                 

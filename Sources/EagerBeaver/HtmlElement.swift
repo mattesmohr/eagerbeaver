@@ -133,9 +133,9 @@ public class HtmlElement {
                 for child in children {
                     output += child.render()
                 }
+                
+                output += "</\(name ?? "")>"
             }
-            
-            output += "</\(name ?? "")>"
             
         case .text:
             output += "\(value ?? "")"

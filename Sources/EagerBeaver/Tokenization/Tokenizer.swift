@@ -308,7 +308,7 @@ internal class Tokenizer {
         
         if character.isLetter {
             
-            self.token = TagToken(name: String(character), kind: .starttag)
+            self.token = TagToken(name: String(character), kind: .start)
             
             return .tagname
         }
@@ -365,7 +365,7 @@ internal class Tokenizer {
         
         if character.isLetter {
             
-            self.token = TagToken(name: String(character), kind: .endtag)
+            self.token = TagToken(name: String(character), kind: .end)
             
             return .tagname
         }

@@ -11,14 +11,21 @@ internal class DocumentToken: HtmlToken {
     internal var systemId: String?
 }
 
-/// A instance for the start and end tag
+extension DocumentToken: CustomStringConvertible {
+    
+    var description: String {
+        return "\"\(publicId ?? "nil")\""
+    }
+}
+
+/// A instance for the start and end tag.
 internal class TagToken: HtmlToken {
     
     /// The different kinds of a tag
     internal enum TagKind {
         
-        case starttag
-        case endtag
+        case start
+        case end
     }
     
     /// The name of the tag
@@ -35,7 +42,14 @@ internal class TagToken: HtmlToken {
     }
 }
 
-/// A instance for the comment
+extension TagToken: CustomStringConvertible {
+    
+    var description: String {
+        return "\"\(name)\""
+    }
+}
+
+/// A instance for the comment.
 internal class CommentToken: HtmlToken {
     
     /// The content of the token
@@ -48,7 +62,14 @@ internal class CommentToken: HtmlToken {
     }
 }
 
-/// A instance for any other content
+extension CommentToken: CustomStringConvertible {
+    
+    var description: String {
+        return "\"\(data)\""
+    }
+}
+
+/// A instance for any other content.
 internal class TextToken: HtmlToken {
     
     /// The content of the token
@@ -61,7 +82,14 @@ internal class TextToken: HtmlToken {
     }
 }
 
-/// A instance for any other content
+extension TextToken: CustomStringConvertible {
+    
+    var description: String {
+        return "\"\(data)\""
+    }
+}
+
+/// A instance for any other content.
 internal class AttributeToken: HtmlToken {
     
     /// The key of the token
@@ -75,6 +103,13 @@ internal class AttributeToken: HtmlToken {
         
         self.name = name
         self.value = value
+    }
+}
+
+extension AttributeToken: CustomStringConvertible {
+    
+    var description: String {
+        return "\"\(name)\""
     }
 }
 
