@@ -23,7 +23,7 @@ extension DefinitionNode: CustomStringConvertible {
 
 internal class ElementNode: HtmlNode {
     
-    internal var name: String
+    internal let name: String
     
     internal var attributes: [AttributeNode]?
     
@@ -111,7 +111,7 @@ extension TextNode: CustomStringConvertible {
 
 internal class AttributeNode: HtmlNode {
     
-    internal var name: String
+    internal let name: String
     
     internal var value: String?
     

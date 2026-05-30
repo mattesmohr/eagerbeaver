@@ -1,39 +1,45 @@
-/// A html element
+/// A type thats represents a html element.
 public class HtmlElement {
     
-    /// The different kind of elements
+    /// The different kind of elements.
     public enum ElementKind {
         
+        /// Indicates text.
         case text
+        
+        /// Indicates a comment.
         case comment
+        
+        /// Indicates an element.
         case element
     }
     
-    /// The name of the element
+    /// The name of the element.
     public var name: String?
     
-    /// The name of the element
+    /// The name of the element.
     public var value: String?
     
-    /// The element attributes
+    /// The element attributes.
     public var attributes: [HtmlAttribute]?
     
-    /// The kind of the element
-    public var kind: ElementKind
+    /// The kind of the element.
+    public let kind: ElementKind
     
-    public var level: Int
+    /// The level of the element.
+    public let level: Int
     
-    /// The content of the element
+    /// The content of the element.
     public var children: [HtmlElement]?
     
-    /// Creates a element
+    /// Create an element.
     public init(kind: ElementKind, level: Int) {
         
         self.kind = kind
         self.level = level
     }
     
-    /// Maps a element node
+    /// Maps a element node.
     internal convenience init(node: ElementNode, level: Int) {
         
         self.init(kind: .element, level: level)
@@ -65,21 +71,21 @@ public class HtmlElement {
         }
     }
     
-    /// Maps a comment node
+    /// Maps a comment node.
     internal convenience init(node: CommentNode, level: Int) {
         
         self.init(kind: .comment, level: level)
         self.value = node.data
     }
     
-    /// Maps a text node
+    /// Maps a text node.
     internal convenience init(node: TextNode, level: Int) {
         
         self.init(kind: .text, level: level)
         self.value = node.data
     }
     
-    /// Adds content to the element
+    /// Adds content to the element.
     internal func add(child: HtmlElement) {
         
         if var children = children {
@@ -93,7 +99,7 @@ public class HtmlElement {
         }
     }
     
-    /// Adds content to the element
+    /// Adds content to the element.
     internal func add(attribute: HtmlAttribute) {
         
         if var attributes = attributes {
@@ -107,6 +113,7 @@ public class HtmlElement {
         }
     }
     
+    /// Renders an element node.
     internal func render() -> String {
         
         var output = ""

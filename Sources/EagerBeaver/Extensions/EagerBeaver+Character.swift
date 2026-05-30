@@ -1,7 +1,8 @@
 import Foundation
+
 extension Character {
     
-    public var isAmpersand: Bool {
+    internal var isAmpersand: Bool {
         
         if self == "&" {
             return true
@@ -10,7 +11,7 @@ extension Character {
         return false
     }
     
-    public var isQuestionMark: Bool {
+    internal var isQuestionMark: Bool {
         
         if self == "?" {
             return true
@@ -19,7 +20,7 @@ extension Character {
         return false
     }
     
-    public var isGreaterThanSign: Bool {
+    internal var isGreaterThanSign: Bool {
         
         if self == ">" {
             return true
@@ -28,7 +29,7 @@ extension Character {
         return false
     }
     
-    public var isLessThanSign: Bool {
+    internal var isLessThanSign: Bool {
         
         if self == "<" {
             return true
@@ -37,7 +38,7 @@ extension Character {
         return false
     }
     
-    public var isSolidus: Bool {
+    internal var isSolidus: Bool {
         
         if self == "/" {
             return true
@@ -46,7 +47,7 @@ extension Character {
         return false
     }
     
-    public var isExclamationMark: Bool {
+    internal var isExclamationMark: Bool {
         
         if self == "!" {
             return true
@@ -55,7 +56,7 @@ extension Character {
         return false
     }
     
-    public var isEqualSign: Bool {
+    internal var isEqualSign: Bool {
         
         if self == "=" {
             return true
@@ -64,7 +65,7 @@ extension Character {
         return false
     }
     
-    public var isApostrophe: Bool {
+    internal var isApostrophe: Bool {
         
         if self == "'" {
             return true
@@ -73,7 +74,7 @@ extension Character {
         return false
     }
     
-    public var isQuotationMark: Bool {
+    internal var isQuotationMark: Bool {
         
         if self == "\"" {
             return true
@@ -82,7 +83,7 @@ extension Character {
         return false
     }
     
-    public var isHyphenMinus: Bool {
+    internal var isHyphenMinus: Bool {
         
         if self == "-" {
             return true
@@ -91,7 +92,7 @@ extension Character {
         return false
     }
     
-    public var isNumberSign: Bool {
+    internal var isNumberSign: Bool {
         
         if self == "#" {
             return true

@@ -1,13 +1,13 @@
-/// A instance for a token
+/// A instance for a token.
 internal class HtmlToken {}
 
-/// A instance for the document type
+/// A instance for the document type.
 internal class DocumentToken: HtmlToken {
     
-    /// The public identifier
+    /// The public identifier.
     internal var publicId: String?
     
-    /// The system identifier
+    /// The system identifier.
     internal var systemId: String?
 }
 
@@ -18,7 +18,6 @@ extension DocumentToken: CustomStringConvertible {
     }
 }
 
-/// A instance for the start and end tag.
 internal class TagToken: HtmlToken {
     
     /// The different kinds of a tag
@@ -28,10 +27,10 @@ internal class TagToken: HtmlToken {
         case end
     }
     
-    /// The name of the tag
+    /// The name of the tag.
     internal var name: String
     
-    /// The kind of the tag
+    /// The kind of the tag.
     internal var kind: TagKind
     
     /// Creates a tag token
@@ -49,13 +48,12 @@ extension TagToken: CustomStringConvertible {
     }
 }
 
-/// A instance for the comment.
 internal class CommentToken: HtmlToken {
     
-    /// The content of the token
+    /// The content of the token.
     internal var data: String
     
-    /// Creates a comment token
+    /// Creates a comment token.
     internal init(data: String) {
         
         self.data = data
@@ -69,13 +67,12 @@ extension CommentToken: CustomStringConvertible {
     }
 }
 
-/// A instance for any other content.
 internal class TextToken: HtmlToken {
     
-    /// The content of the token
+    /// The content of the token.
     internal var data: String
     
-    /// Creates a character token
+    /// Creates a character token.
     internal init(data: String) {
         
         self.data = data
@@ -89,13 +86,12 @@ extension TextToken: CustomStringConvertible {
     }
 }
 
-/// A instance for any other content.
 internal class AttributeToken: HtmlToken {
     
-    /// The key of the token
+    /// The key of the token.
     internal var name: String
     
-    /// The value of the token
+    /// The value of the token.
     internal var value: String
     
     /// Creates a character token

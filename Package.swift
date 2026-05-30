@@ -5,16 +5,10 @@ import PackageDescription
 let package = Package(
     name: "EagerBeaver",
     products: [
-        .library(
-            name: "EagerBeaver",
-            targets: ["EagerBeaver"]),
+        .library(name: "EagerBeaver", targets: ["EagerBeaver"])
     ],
     targets: [
-        .target(
-            name: "EagerBeaver",
-            dependencies: []),
-        .testTarget(
-            name: "EagerBeaverTests",
-            dependencies: ["EagerBeaver"]),
+        .target(name: "EagerBeaver"),
+        .testTarget(name: "EagerBeaverTests", dependencies: ["EagerBeaver"])
     ]
 )

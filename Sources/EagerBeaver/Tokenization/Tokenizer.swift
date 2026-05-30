@@ -1,7 +1,7 @@
-/// A tokenizer
+/// A tokenizer.
 internal class Tokenizer {
     
-    /// A enumeration of possible errors
+    /// An enumeration of possible errors.
     internal enum Error: Swift.Error {
         
         case invalidCharacter(Character)
@@ -55,7 +55,7 @@ internal class Tokenizer {
         }
     }
     
-    /// A enumeration of different states of the tokenizer
+    /// An enumeration of different states of the tokenizer.
     ///
     /// Data is the initial state.
     internal enum TokenizerState {
@@ -89,7 +89,7 @@ internal class Tokenizer {
         case text
     }
     
-    /// A enumeration of different level of the logging
+    /// An enumeration of different level of the logging.
     ///
     /// None is the initial state.
     internal enum LogLevel {
@@ -99,26 +99,26 @@ internal class Tokenizer {
         case debug
     }
     
-    /// The collection of the emitted tokens
+    /// The collection of the emitted tokens.
     private var tokens: [HtmlToken]
     
-    /// The temporary token
+    /// The temporary token.
     private var token: HtmlToken?
     
-    /// The  state of the tokenizer
+    /// The  state of the tokenizer.
     private var state: TokenizerState
     
-    /// The level of logging
+    /// The level of logging.
     private var level: LogLevel
     
-    /// The position of the tokenizer
+    /// The position of the tokenizer.
     private var position: Int
     
     private var rounds: Int = 0
     
     private var temp: String = ""
     
-    /// Creates a tokenizer
+    /// Creates a tokenizer.
     internal init(state: TokenizerState = .data, log level: LogLevel = .none) {
         
         self.tokens = []

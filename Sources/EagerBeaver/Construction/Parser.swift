@@ -1,7 +1,7 @@
-/// The parser for the tree construction
+/// The parser for the tree construction.
 internal class Parser {
     
-    /// A enumeration of possible errors
+    /// An enumeration of possible errors.
     internal enum Error: Swift.Error {
         
         case missingBodyTag
@@ -35,7 +35,7 @@ internal class Parser {
         }
     }
    
-    /// A enumeration of different states of the parser
+    /// An enumeration of different states of the parser.
     internal enum InsertionMode {
         
         case initial
@@ -48,7 +48,7 @@ internal class Parser {
         case afterbody
     }
     
-    /// A enumeration of different level of the logging
+    /// An enumeration of different level of the logging.
     ///
     /// None is the initial state.
     internal enum LogLevel {
@@ -64,7 +64,7 @@ internal class Parser {
     /// The collection of nodes
     private var nodes: [ElementNode]
     
-    /// The  state of the tokenizer
+    /// The state of the tokenizer
     private var mode: InsertionMode
     
     /// The level of logging
@@ -111,7 +111,7 @@ internal class Parser {
         }
     }
     
-    /// Inserts the node into the tree
+    /// Inserts the node into the tree.
     private func insert(node: HtmlNode) {
         
         self.log(#function)

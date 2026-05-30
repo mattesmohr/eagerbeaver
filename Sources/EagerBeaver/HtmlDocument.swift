@@ -1,15 +1,15 @@
 import Foundation
 
-/// A html document
+/// A type that represents a html document.
 public class HtmlDocument {
     
-    /// The document definiton of the document
+    /// The document definiton of the document.
     public var definition: HtmlDefinition?
     
-    /// The root element of the document
+    /// The root element of the document.
     public var root: HtmlElement?
     
-    /// Creates a document
+    /// Create a document.
     public init(content: String) throws {
         
         let tokens = try Tokenizer().consume(content)
@@ -28,7 +28,7 @@ public class HtmlDocument {
         }
     }
     
-    /// Adds a element to the document
+    /// Adds a element to the document.
     public func add(child: HtmlElement) {
         
         if let root = self.root {
@@ -39,6 +39,7 @@ public class HtmlDocument {
         }
     }
     
+    /// Renders the document.
     internal func render() -> String {
         
         var output = ""

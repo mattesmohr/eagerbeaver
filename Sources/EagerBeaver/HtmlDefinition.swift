@@ -1,16 +1,16 @@
-/// A document definition
+/// A type that represents the document definition.
 public class HtmlDefinition {
     
-    /// The public identifier of the document
+    /// The public identifier of the document.
     public var publicId: String?
     
-    /// The system identifier of the document
+    /// The system identifier of the document.
     public var systemId: String?
     
-    /// Creates a definition
+    /// Create a definition.
     public init() {}
     
-    /// Maps a definition node
+    /// Maps a definition node.
     internal convenience init(node: DefinitionNode) {
         
         self.init()
@@ -18,6 +18,7 @@ public class HtmlDefinition {
         self.systemId = node.systemId
     }
     
+    /// Renders a definition node.
     internal func render() -> String {
 
         if let publicId = self.publicId, let systemId = self.systemId {
