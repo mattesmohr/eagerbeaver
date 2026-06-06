@@ -271,7 +271,7 @@ internal class Tokenizer {
             return .starttag
         }
         
-        if character.isLetter {
+        if character.isLetter || character.isNumber || character.isNumberSign {
             
             if let token = self.token as? TextToken {
                 
@@ -458,7 +458,7 @@ internal class Tokenizer {
             return .afterattributevalue
         }
         
-        if character.isASCII {
+        if character.isLetter || character.isNumber || character.isNumberSign || character.isHyphenMinus {
             
             if let token = self.token as? AttributeToken {
                 
